@@ -202,5 +202,41 @@ namespace PrintLinkedList
             return false;
         }
 
+        public LinkedList MergeWith(LinkedList mergeList)
+        {
+            Node currentA = this.head;
+            Node currentB = mergeList.head;
+
+            if (this.Count == 0)
+                return mergeList;
+            if (mergeList.Count == 0)
+                return this;
+
+            while (currentB != null)
+            {
+                for (int i = 0; i < this.Count; i++)
+                {
+                    if (currentA != null)
+                    {
+                        if (Int32.Parse(currentB.Data.ToString()) <= Int32.Parse(currentA.Data.ToString()))
+                        {
+                            this.Add(i, currentB.Data);
+                            break;
+                        }
+                        else
+                            currentA = currentA.Next;
+                    }
+                    else
+                    {
+                        this.Add(currentB.Data);
+                        break;
+                    }
+                }
+                currentA = this.head;
+                currentB = currentB.Next;
+            }
+            return this;
+        }
+
     }
 }
