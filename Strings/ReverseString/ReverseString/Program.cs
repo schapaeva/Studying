@@ -10,11 +10,11 @@ namespace ReverseString
     {
         static void Main(string[] args)
         {
-            char[] arr = (Console.ReadLine()).ToCharArray();
-            string reverse = String.Empty;
-            for (int i = arr.Length - 1; i > -1;  i--)
+            string input = Console.ReadLine();
+            string reverse = "";
+            for (int i = input.Length - 1; i > -1;  i--)
             {
-                reverse += arr[i];
+                reverse += input[i];
             }
             Console.WriteLine(reverse);
             Console.ReadKey();
