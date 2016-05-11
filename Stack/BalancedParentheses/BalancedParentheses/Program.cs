@@ -54,7 +54,6 @@ namespace BalancedParentheses
             else
             {
                 balanced = false;
-                Console.WriteLine("NO");
             }
             return balanced;
         }
