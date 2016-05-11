@@ -16,11 +16,12 @@ namespace SearchInArray
                 int n = Convert.ToInt32(Console.ReadLine());
                 string[] tmp = Console.ReadLine().Split(' ');
                 long[] array = Array.ConvertAll(tmp, long.Parse);
-                if (CheckArray1(array))
+                if (CheckArray2(array))
                     Console.WriteLine("YES");
                 else
                     Console.WriteLine("NO");
             }
+            Console.ReadKey();
         }
 
         public static bool CheckArray1(long[] array)
@@ -54,12 +55,12 @@ namespace SearchInArray
             long left_sum = array[left_ind];
             long right_sum = array[right_ind];
 
-            while (left_ind != right_ind)
+            while (left_ind  != right_ind)
             {
                 if (left_sum < right_sum)
                 {
                     left_ind++;
-                    left_sum = +array[left_ind];
+                    left_sum += array[left_ind];
                 }
                 else
                 {
