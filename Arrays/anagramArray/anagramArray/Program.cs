@@ -11,49 +11,18 @@ namespace anagramArray
         static void Main(string[] args)
         {
             string[] inputArray = Console.ReadLine().Split(' ');
-            string[] sortedArray = new string[inputArray.Length];
+
+            Dictionary<string, List<string>> dict = new Dictionary<string,List<string>>();
             for (int i = 0; i < inputArray.Length; i++)
             {
-                sortedArray[i] = SortWord(inputArray[i]);
+                string sortedWord = SortWord(inputArray[i]);
+                if (!dict.ContainsKey(sortedWord))
+                    dict.Add(sortedWord, new List<string> { inputArray[i] } );
+                else
+                    dict[sortedWord].Add(inputArray[i]);           
             }
-            Dictionary<string, List<string>> dict = new Dictionary<string,List<string>>();
-            for (int i = 0; i < sortedArray.Length; i++)
-            {
-                for (int j = i + 1; j < sortedArray.Length; j++)
-                {
-                    if (sortedArray[i] == sortedArray[j])
-                    {
-                        if (dict.ContainsKey(inputArray[i]))
-                        {
-                            dict[sortedArray[i]].Add(inputArray[j]);
-                        }                            
-                        else
-                        {
-                            dict.Add(inputArray[i], new List<string> { inputArray[j] });
-                        }
-                    }
-                }
 
-            }
-            List<List<string>> result = new List<List<string>>();
-            foreach(KeyValuePair<string, List<string>> pair in dict)
-            {
-                pair.Value.Add(pair.Key);
-                result.Add(pair.Value);
-            }
-            Console.Write("[");
-            foreach(var element in result)
-            {
-                Console.Write("[");
-                for (int i = 0; i < element.Count; i++)
-                {
-                    Console.Write(element[i]);
-                    if(i != element.Count -1)
-                        Console.Write(" ");
-                }
-                Console.Write("]");
-            }
-            Console.Write("]");
+            PrintNicely(ConvertDictToList(dict));
             Console.ReadKey();
         }
 
@@ -63,9 +32,29 @@ namespace anagramArray
             Array.Sort(wordChars);
             return new string(wordChars);
         }
+
+        public static List<List<string>> ConvertDictToList(Dictionary<string, List<string>> dict)
+        {
+            List<List<string>> result = new List<List<string>>();
+            foreach (KeyValuePair<string, List<string>> pair in dict)
+                result.Add(pair.Value);
+            return result;
+        }
         public static void PrintNicely(List<List<string>> lisfOfLists)
         {
-
+            Console.Write("[");
+            foreach (var element in lisfOfLists)
+            {
+                Console.Write("[");
+                for (int i = 0; i < element.Count; i++)
+                {
+                    Console.Write(element[i]);
+                    if (i != element.Count - 1)
+                        Console.Write(" ");
+                }
+                Console.Write("]");
+            }
+            Console.Write("]");
         }
     }
 }
