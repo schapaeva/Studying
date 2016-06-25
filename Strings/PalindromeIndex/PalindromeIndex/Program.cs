@@ -19,12 +19,17 @@ namespace PalindromeIndex
         }
         public static int PalindromeIndex(string input)
         {
-            if (input.Length <= 1 || IfPalindrome(input))
+            if (input.Length <= 1)
                 return -1;
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Length / 2; i++)
             {
-                if (IfPalindrome(MakeSubstring(input, i)))
-                    return i;
+                if (input[0] != input[input.Length - 1 - i])
+                {
+                    if (IfPalindrome(MakeSubstring(input, i)))
+                        return i;
+                    else if (IfPalindrome(MakeSubstring(input, input.Length - 1 - i)))
+                        return input.Length - 1 - i;
+                }
             }
             return -1;
         }
