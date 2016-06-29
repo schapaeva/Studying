@@ -23,8 +23,8 @@ namespace CommonChild
             Dictionary<char, List<int>> aDict = PopulateDictionary(a);
             Dictionary<char, List<int>> bDict = PopulateDictionary(b);
             string child = "";
-            //OUDFRMYMAW -> FMYMAW -> 
-            //AWHYFCCMQX -> AWMYFM ->  
+            //OUDFRMYMAW -> FMYMAW -> F ->Look for 
+            //AWHFCCMQXY -> AWMFMY -> 
             foreach (KeyValuePair<char, List<int>> aPair in aDict)
             {
                 if (!bDict.ContainsKey(aPair.Key))
@@ -33,6 +33,7 @@ namespace CommonChild
                     bDict.Remove(aPair.Key);
                 }
             }
+
             return child;
         }
 
