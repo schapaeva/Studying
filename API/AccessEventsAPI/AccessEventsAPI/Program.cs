@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Handlers;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AccessEventsAPI
@@ -28,31 +29,17 @@ namespace AccessEventsAPI
         public static HttpResponseMessage ClientPostRequest(LoginArgs args)
         {
             string url = "https://q1secure.seattletimes.com/authorization/vendor/useraccessevents";
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ClientCertificateOptions = ClientCertificateOption.Automatic;
-            clientHandler.UseDefaultCredentials = true;
-            //System.Net.Http.WebRequestHandler certHandler = new WebRequestHander();
+            
+            WebRequestHandler certHandler = new WebRequestHandler();
+            X509Certificate cert = X509Certificate.CreateFromCertFile(@"C:\Users\schapaeva\Desktop\WORK-ST\Study\Studying\API\certificate.cer");
+            certHandler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            certHandler.ClientCertificates.Add(cert);
 
-
-            HttpClient client = new HttpClient(clientHandler);
+            HttpClient client = new HttpClient(certHandler);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response = client.PostAsJsonAsync(url, args).Result;
-            //response.EnsureSuccessStatusCode();
             return response;            
-        }
-
-
-        class CertPolicy : ICertificatePolicy
-        {
-            public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request, int certificateProblem)
-            {
-                // You can do your own certificate checking.
-                // You can obtain the error values from WinError.h.
-
-                // Return true so that any certificate will work with this sample.
-                return true;
-            }
         }
 
     }
