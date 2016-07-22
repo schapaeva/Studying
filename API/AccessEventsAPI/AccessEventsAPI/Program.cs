@@ -4,6 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Handlers;
 using System.Security.Cryptography.X509Certificates;
+using System.Net.Http.Formatting;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AccessEventsAPI
 {
@@ -13,7 +16,7 @@ namespace AccessEventsAPI
         {
             LoginArgs userArgs = new LoginArgs() { apikey = "dmdfYP6kyjbGKRUG7vdY3X86ZxT2W5uP", uuid = "578d57e39fae43.78062022" };
             Console.WriteLine("User UUID: " + userArgs.uuid);
-            HttpResponseMessage response = ClientPostRequest(userArgs);
+            HttpResponseMessage response = ClientPostRequest(userArgs).Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("----------------Access Events-------------------");
@@ -26,20 +29,26 @@ namespace AccessEventsAPI
             Console.ReadKey();
         }
 
-        public static HttpResponseMessage ClientPostRequest(LoginArgs args)
+        public static async Task<HttpResponseMessage> ClientPostRequest(LoginArgs args)
         {
             string url = "https://q1secure.seattletimes.com/authorization/vendor/useraccessevents";
             
-            WebRequestHandler certHandler = new WebRequestHandler();
-            X509Certificate cert = X509Certificate.CreateFromCertFile(@"C:\Users\schapaeva\Desktop\WORK-ST\Study\Studying\API\certificate.cer");
-            certHandler.ClientCertificateOptions = ClientCertificateOption.Manual;
-            certHandler.ClientCertificates.Add(cert);
+            using (HttpClient client = new HttpClient())
+            {
+                var content =
+                    new FormUrlEncodedContent(
+                        new Dictionary<string, string>
+                    {
+                        { "apikey", "fyKCtVDR7THYNNJXWpyevNBFGUhyYtqu" },
+                        { "uuid", "578d57e39fae43.78062022" }
+                    });
 
-            HttpClient client = new HttpClient(certHandler);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = client.PostAsJsonAsync(url, args).Result;
-            return response;            
+                var response = await client.PostAsync(url, content);
+
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                return response;
+            }
         }
 
     }
