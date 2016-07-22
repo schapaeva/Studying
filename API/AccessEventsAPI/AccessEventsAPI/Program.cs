@@ -14,9 +14,9 @@ namespace AccessEventsAPI
     {
         static void Main(string[] args)
         {
-            LoginArgs userArgs = new LoginArgs() { apikey = "dmdfYP6kyjbGKRUG7vdY3X86ZxT2W5uP", uuid = "578d57e39fae43.78062022" };
-            Console.WriteLine("User UUID: " + userArgs.uuid);
-            HttpResponseMessage response = ClientPostRequest(userArgs).Result;
+            string uuid = "578d57e39fae43.78062022" ;
+            Console.WriteLine("User UUID: " + uuid);
+            HttpResponseMessage response = ClientPostRequest(uuid).Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("----------------Access Events-------------------");
@@ -29,7 +29,7 @@ namespace AccessEventsAPI
             Console.ReadKey();
         }
 
-        public static async Task<HttpResponseMessage> ClientPostRequest(LoginArgs args)
+        public static async Task<HttpResponseMessage> ClientPostRequest(string uuid)
         {
             string url = "https://q1secure.seattletimes.com/authorization/vendor/useraccessevents";
             
@@ -40,7 +40,7 @@ namespace AccessEventsAPI
                         new Dictionary<string, string>
                     {
                         { "apikey", "fyKCtVDR7THYNNJXWpyevNBFGUhyYtqu" },
-                        { "uuid", "578d57e39fae43.78062022" }
+                        { "uuid", uuid }
                     });
 
                 var response = await client.PostAsync(url, content);
@@ -49,6 +49,11 @@ namespace AccessEventsAPI
 
                 return response;
             }
+        }
+
+        public static string ReturnApiKey()
+        {
+
         }
 
     }
