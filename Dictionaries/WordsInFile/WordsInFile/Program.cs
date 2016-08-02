@@ -11,17 +11,18 @@ namespace WordsInFile
     {
         static void Main(string[] args)
         {
-            string filePath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\", @"TextFiles\")) + "article1.txt";
+            string filePath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\", @"TextFiles\")) + "article1.txt";
 
             if (File.Exists(filePath))
             {
-                string text = File.ReadAllText(filePath); 
+                string text = File.ReadAllText(filePath);
+                PrintDictionary(CountWords(NormalizeText(text))); 
             }
             else
             {
                 Console.WriteLine("This file does not exist in this folder.");
-            }            
-
+            }
+            Console.ReadKey();
         }
 
         public static string[] NormalizeText(string text)
@@ -32,6 +33,7 @@ namespace WordsInFile
 
             for (int i = 0; i < input.Length; i ++)
             {
+                input[i] = input[i].ToLower();
                 words[i] = TrimPunctuation(input[i]);
             }
             return words;
@@ -97,6 +99,14 @@ namespace WordsInFile
                 }
             }
             return dict;
+        }
+
+        public static void PrintDictionary(Dictionary<string, int> dict)
+        {
+            foreach (KeyValuePair<string, int> pair in dict)
+            {
+                Console.WriteLine(pair.Key + " : " + pair.Value.ToString());
+            }
         }
 
     }
