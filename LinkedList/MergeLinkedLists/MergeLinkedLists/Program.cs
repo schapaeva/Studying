@@ -24,8 +24,7 @@ namespace MergeLinkedLists
                 return list2;
             if (list2.First == null)
                 return list1;
-            //1: 1-2-2-3-4  
-            //2: 0-3-7
+
             LinkedListNode<int> current2 = list2.First;
             while(current2 != null)
             {
@@ -35,18 +34,19 @@ namespace MergeLinkedLists
                     current1 = current1.Next;
                 }
 
-                if (current1.Next == null)
+                if (current2.Value > current1.Value)
                     list1.AddAfter(current1, current2.Value);
                 else
                     list1.AddBefore(current1, current2.Value);
                 current2 = current2.Next;
+                PrintLinkedList(list1);
             }
             return list1;
         }
 
         public static void PrintLinkedList(LinkedList<int> list)
         {
-            Console.WriteLine("Linked list: ");
+            Console.WriteLine("\nLinked list: ");
             foreach(int i in list)
             {
                 Console.Write(i.ToString() + " ");
