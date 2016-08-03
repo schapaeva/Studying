@@ -30,7 +30,7 @@ namespace MergeLinkedLists
             while(current2 != null)
             {
                 LinkedListNode<int> current1 = list1.First;
-                while(current2.Value > current1.Value && current1.Next != null)
+                while(current2.Value > current1.Value && current1 != list1.Last)
                 {                           
                     current1 = current1.Next;
                 }
