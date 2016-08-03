@@ -39,7 +39,6 @@ namespace MergeLinkedLists
                 else
                     list1.AddBefore(current1, current2.Value);
                 current2 = current2.Next;
-                PrintLinkedList(list1);
             }
             return list1;
         }
