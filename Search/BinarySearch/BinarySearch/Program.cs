@@ -13,13 +13,17 @@ namespace BinarySearch
             string[] temp = Console.ReadLine().Split(' ');
             int[] array = Array.ConvertAll(temp, Int32.Parse);
             int searching = Convert.ToInt32(Console.ReadLine());
-            int index = BinarySearch(array, searching);
-            Console.WriteLine("Index of the {0} element is {1}", searching.ToString(), index.ToString());
+            int index;
+            if (BinarySearch(array, searching, out index))
+                Console.WriteLine("Index of the '{0}' element is {1}", searching.ToString(), index.ToString());
+            else
+                Console.WriteLine("Not found.");
             Console.ReadKey();
         }
-
-        public static int BinarySearch(int[] array, int searching)
+        
+        public static bool BinarySearch(int[] array, int searching, out int foundIndex)
         {
+            foundIndex = 0;
             int middle, lowBound = 0, highBound = array.Length -1;
             while(lowBound <= highBound)
             {
@@ -34,10 +38,11 @@ namespace BinarySearch
                 }
                 else
                 {
-                    return middle;
+                    foundIndex = middle;
+                    return true;
                 }
             }
-            return -1;
+            return false ;
         }
     }
 }
