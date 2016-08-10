@@ -11,53 +11,69 @@ namespace MergeSort
         static void Main(string[] args)
         {
             int[] array = Array.ConvertAll(Console.ReadLine().Split(' '), Int32.Parse);
-            MergeSort_Recursive(array, 0, array.Length - 1);
-            PrintArray(array);
+            PrintArray(MergeSort_Recursive(array));
             Console.ReadKey();
         }
 
         //Runtime: nLog2(n)
-        public static void MergeSort_Recursive(int[] array, int left, int right)
+        public static int[] MergeSort_Recursive(int[] array)
         {
-            if (left < right && array.Length > 1)
-            {
-                int mid = (right + left) / 2;
-                MergeSort_Recursive(array, left, mid);
-                MergeSort_Recursive(array, mid + 1, right);
+            if (array.Length <= 1)
+                return array;
 
-                DoMerge(array, left, (mid + 1), right);
-            }            
+            int middle = array.Length / 2;
+            int[] left = new int[middle];
+            int[] right = new int[array.Length - middle];
+
+            Array.Copy(array, left, middle);
+            Array.Copy(array, middle, right, 0, right.Length);
+
+            left = MergeSort_Recursive(left);
+            right = MergeSort_Recursive(right);
+
+            return DoMerge(left, right);
         }
 
-        public static void DoMerge(int[] array, int left, int mid, int right)
+        public static int[] DoMerge(int[] left, int[] right)
         {
-            int i, left_end, num_elements, tmp_pos;
-            int[] temp = new int[array.Length];
+            List<int> leftList = left.OfType<int>().ToList();
+            List<int> rightList = right.OfType<int>().ToList();
+            List<int> resultList = new List<int>();
 
-            left_end = (mid - 1);
-            tmp_pos = left;
-            num_elements = right - left + 1;
-
-            while (left <= left_end && mid <= right)
+            while (leftList.Count > 0 || rightList.Count > 0)
             {
-                if (array[left] <= array[mid])
-                    temp[tmp_pos++] = array[left++];
-                else
-                    temp[tmp_pos++] = array[mid++];
+                if (leftList.Count > 0 && rightList.Count > 0)
+                {
+                    // Compare the 2 lists, append the smaller element to the result list
+                    // and remove it from the original list.
+                    if (leftList[0] <= rightList[0])
+                    {
+                        resultList.Add(leftList[0]);
+                        leftList.RemoveAt(0);
+                    }
+                    else
+                    {
+                        resultList.Add(rightList[0]);
+                        rightList.RemoveAt(0);
+                    }
+                }
+
+                else if (leftList.Count > 0)
+                {
+                    resultList.Add(leftList[0]);
+                    leftList.RemoveAt(0);
+                }
+
+                else if (rightList.Count > 0)
+                {
+                    resultList.Add(rightList[0]);
+                    rightList.RemoveAt(0);
+                }
             }
 
-            while (left <= left_end)
-                temp[tmp_pos++] = array[left++];
-
-            while (mid <= right)
-                temp[tmp_pos++] = array[mid++];
-
-            for (i = 0; i < num_elements; i++)
-            {
-                array[right] = temp[right];
-                right--;
-            }
-
+            // Convert the resulting list back to a static array
+            int[] result = resultList.ToArray();
+            return result;
         }
 
         public static void PrintArray<T>(IEnumerable<T> array)
