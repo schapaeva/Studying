@@ -8,7 +8,7 @@ namespace Binary_Tree_example
 {
     class Node
     {
-        private int number;
+        public int number;
         public Node rightLeaf;
         public Node leftLeaf;
 

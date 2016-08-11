@@ -53,6 +53,19 @@ namespace Binary_Tree_example
             return (1 + Math.Max(GetHeight(root.leftLeaf), GetHeight(root.rightLeaf)));
         }
 
+        public bool IsSameTree(Node root1, Node root2)
+        {
+            if (root1 == null && root2 == null)
+                return true;
+            if (root1 == null || root2 == null)
+                return false;
+            else if (root1.number == root2.number)
+            {
+                return IsSameTree(root1.leftLeaf, root2.leftLeaf) && IsSameTree(root1.rightLeaf, root2.rightLeaf);
+            }
+            return false;
+        }
+
         public override string ToString()
         {
             string result = string.Empty;
