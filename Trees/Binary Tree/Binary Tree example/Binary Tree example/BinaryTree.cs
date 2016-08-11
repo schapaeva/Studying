@@ -8,7 +8,7 @@ namespace Binary_Tree_example
 {
     class BinaryTree
     {
-        private Node root;
+        public Node root;
 
         public bool IsEmpty
         {
@@ -43,6 +43,14 @@ namespace Binary_Tree_example
             {
                 root.Display(root);
             }
+        }
+
+        //Time complexity O(n)
+        public int GetHeight(Node root)
+        {
+            if (root == null)
+                return 0;
+            return (1 + Math.Max(GetHeight(root.leftLeaf), GetHeight(root.rightLeaf)));
         }
 
         public override string ToString()
