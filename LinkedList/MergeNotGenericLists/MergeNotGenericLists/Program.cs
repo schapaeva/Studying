@@ -36,7 +36,7 @@ namespace MergeNotGenericLists
             while (currentL2 != null)
             {
                 currentL1 = l1;
-                while (currentL2.val >= currentL1.val && currentL2.val < currentL1.next.val && currentL1 != null)
+                while (currentL2.val >= currentL1.val && currentL1 != null)
                 {
                     currentL1 = currentL1.next;
                 }
@@ -53,12 +53,14 @@ namespace MergeNotGenericLists
                 {
                     currentL1.next = currentL2;
                 }
-                else if (currentL1.val <= currentL2.val)
+                else if (currentL2.val >= currentL1.val)
                 {
                     currentL1.next = currentL2;
                     currentL2.next = tempL1;
                 }
-                else
+                //0-2-2-3
+                //1-3-4-5
+                else if (currentL2.val < currentL1.val)
                 {
 
                 }
