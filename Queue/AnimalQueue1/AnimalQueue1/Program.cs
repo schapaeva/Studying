@@ -10,6 +10,18 @@ namespace AnimalQueue1
     {
         static void Main(string[] args)
         {
+            AnimalQueue shelterQueue = new AnimalQueue();
+            shelterQueue.Enqueue(new Dog("Doggie1"));
+            shelterQueue.Enqueue(new Dog("Doggie2"));
+            shelterQueue.Enqueue(new Cat("Kitty1"));
+            shelterQueue.Enqueue(new Dog("Doggie3"));
+            shelterQueue.Enqueue(new Cat("Kitty2"));
+            shelterQueue.Enqueue(new Cat("Kitty3")); 
+
+            Console.WriteLine(shelterQueue.DequeuDog().Name());
+            Console.WriteLine(shelterQueue.DequeueAny().Name());
+            Console.WriteLine(shelterQueue.DequeueCat().Name());
+            Console.ReadKey();
         }
     }
 
@@ -36,15 +48,39 @@ namespace AnimalQueue1
 
         public Animal DequeueAny()
         {
+            if (dogQueue.Count != 0 && catQueue.Count != 0)
+            {
+                if (dogQueue.Count == 0)
+                {
+                    return DequeueCat();
+                }
 
+                if (catQueue.Count == 0)
+                {
+                    return DequeuDog();
+                }
+
+                Dog dogPeek = dogQueue.First();
+                Cat catPeek = catQueue.First();
+
+                if(dogPeek.IsOlderThan(catPeek))
+                {
+                    return DequeuDog();
+                }
+                else
+                {
+                    return DequeueCat();
+                }
+            }
+            return null;
         }
 
         public Dog DequeuDog()
         {
-            if (dogQueue.Last != null)
+            if (dogQueue.First != null)
             {
-                Dog dequeuedDog = dogQueue.Last;
-                dogQueue.RemoveLast();
+                Dog dequeuedDog = dogQueue.First();
+                dogQueue.RemoveFirst();
                 return dequeuedDog;
             }                
             return null;
@@ -52,7 +88,13 @@ namespace AnimalQueue1
 
         public Cat DequeueCat()
         {
-
+            if (catQueue.First != null)
+            {
+                Cat dequeuedCat = catQueue.First();
+                catQueue.RemoveFirst();
+                return dequeuedCat;
+            }
+            return null;
         }
     }
 
