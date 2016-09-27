@@ -10,7 +10,9 @@ namespace KeyboardAndMovieName
     {
         static void Main(string[] args)
         {
-            Keyboard keyboard = new Keyboard(6);
+            Console.Write("\nEnter number of the columns: ");
+            int columns = Int32.Parse(Console.ReadLine());
+            Keyboard keyboard = new Keyboard(columns);
             keyboard.PrintKeyboard();
             Console.Write("\nEnter the movie name: ");
             string movieName = Console.ReadLine();
@@ -105,9 +107,9 @@ namespace KeyboardAndMovieName
             char letter = '`';
             int count = 0;
 
-            for (int i = 0; i < _columns; i++)
+            for (int i = 0; i < _rows; i++)
             {
-                for (int j = 0; j < _rows; j++)
+                for (int j = 0; j < _columns; j++)
                 {
                     count++;
                     letter = (char)(letter + 1);
@@ -151,9 +153,9 @@ namespace KeyboardAndMovieName
         //method to Print the Keyboard 
         public void PrintKeyboard()
         {
-            for(int i = 0; i < _columns; i++)
+            for(int i = 0; i < _rows; i++)
             {
-                for (int j = 0; j < _rows; j++)
+                for (int j = 0; j < _columns; j++)
                 {
                     Console.Write(GetButtonByCoordinated(i, j).Letter.ToString() + " ");
                 }
