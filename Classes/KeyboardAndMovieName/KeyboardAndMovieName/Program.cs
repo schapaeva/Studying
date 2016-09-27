@@ -40,10 +40,30 @@ namespace KeyboardAndMovieName
             int diffX = startButton.X - endButton.X;
             int diffY = startButton.Y - endButton.Y;
 
-            for (int i = 0; i < diffX + diffY; i++)
+            //Check if same letter, then return "E" for "Enter"
+            if (diffX == 0 && diffY == 0) return "E";
+            
+            //Go horizontal first 
+            if (diffY != 0)
             {
-                
+                string direction = (diffY < 0) ? "R" : "L";
+                for (int i = 0; i < Math.Abs(diffY); i++)
+                {
+                    path += direction;
+                }
             }
+            
+            //Go vertical
+            if (diffX != 0)
+            {
+                string direction = (diffX < 0) ? "D" : "U";
+                for (int i = 0; i < Math.Abs(diffX); i++)
+                {
+                    path += direction;
+                }
+            }
+
+            path += "E";
             return path;
         }
     }

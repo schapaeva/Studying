@@ -10,6 +10,7 @@ namespace BubbleSort
     {
         static void Main(string[] args)
         {
+            
             string[] tmp = Console.ReadLine().Split(' ');
             int[] array = Array.ConvertAll(tmp, Int32.Parse);
             for (int j = array.Length - 1; j > 0 ; j--)
