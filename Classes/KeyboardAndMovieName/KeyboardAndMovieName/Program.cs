@@ -44,29 +44,54 @@ namespace KeyboardAndMovieName
 
             //Check if same letter, then return "E" for "Enter"
             if (diffX == 0 && diffY == 0) return "E";
-            
-            //Go horizontal first 
-            if (diffY != 0)
+
+            while(startButton.X != endButton.X || startButton.Y != endButton.Y)
             {
-                string direction = (diffY < 0) ? "R" : "L";
-                for (int i = 0; i < Math.Abs(diffY); i++)
-                {
-                    path += direction;
-                }
-            }
-            
-            //Go vertical
-            if (diffX != 0)
+                startButton = GoHorizontal(keyboard, ref diffY, startButton, ref path);
+                startButton = GoVertical(keyboard, ref diffX, startButton, ref path);
+            }        
+            path += "E";
+            return path;
+        }
+
+        public static Button GoHorizontal(Keyboard keyboard, ref int diffY, Button startButton, ref string path)
+        {
+            if (diffY == 0) return startButton;
+            string direction = (diffY < 0) ? "R" : "L";
+            int step = (diffY < 0) ? 1 : -1;
+
+            for (int i = 1; i <= Math.Abs(diffY); i++)
             {
-                string direction = (diffX < 0) ? "D" : "U";
-                for (int i = 0; i < Math.Abs(diffX); i++)
-                {
+                if (keyboard.GetButtonByCoordinates(startButton.X, (startButton.Y + step * i)).IfAvailable)
                     path += direction;
+                else
+                {
+                    diffY += step * (i - 1);
+                    return keyboard.GetButtonByCoordinates(startButton.X, startButton.Y + step * (i - 1));
                 }
             }
 
-            path += "E";
-            return path;
+            return keyboard.GetButtonByCoordinates(startButton.X, startButton.Y - diffY);
+        }
+
+        public static Button GoVertical(Keyboard keyboard, ref int diffX, Button startButton, ref string path)
+        {
+            if (diffX == 0) return startButton;
+            string direction = (diffX < 0) ? "D" : "U";
+            int step = (diffX < 0) ? 1 : -1;
+
+            for (int i = 1; i <= Math.Abs(diffX); i++)
+            {
+                if (keyboard.GetButtonByCoordinates(startButton.X + step * i, startButton.Y).IfAvailable)
+                    path += direction;
+                else
+                {
+                    diffX += step * (i - 1);
+                    return keyboard.GetButtonByCoordinates(startButton.X + step * (i - 1), startButton.Y); 
+                }
+            }
+
+            return keyboard.GetButtonByCoordinates(startButton.X - diffX, startButton.Y);
         }
     }
 
@@ -141,7 +166,7 @@ namespace KeyboardAndMovieName
                 return keysDict[ch];
             throw new Exception("No such button on the keyboard.");
         }
-        public Button GetButtonByCoordinated(int x, int y)
+        public Button GetButtonByCoordinates(int x, int y)
         {
             foreach(KeyValuePair<char, Button> pair in keysDict)
             {
@@ -157,7 +182,7 @@ namespace KeyboardAndMovieName
             {
                 for (int j = 0; j < _columns; j++)
                 {
-                    Console.Write(GetButtonByCoordinated(i, j).Letter.ToString() + " ");
+                    Console.Write(GetButtonByCoordinates(i, j).Letter.ToString() + " ");
                 }
                 Console.Write("\n");
             }
