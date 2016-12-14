@@ -30,44 +30,35 @@ namespace MergeNotGenericLists
             if (l1 == null) return l2;
             if (l2 == null) return l1;
 
-            ListNode currentL2 = l2;
-            ListNode currentL1 = l1;
+            ListNode head = new ListNode(0);
+            
+            ListNode current = head;
 
-            while (currentL2 != null)
+            while (l2 != null && l1 != null)
             {
-                currentL1 = l1;
-                while (currentL2.val >= currentL1.val && currentL1 != null)
+                if (l1 == null)
                 {
-                    currentL1 = currentL1.next;
+                    current.next = l2;
+                    break;
                 }
-
-                ListNode tempL1 = currentL1.next;
-                ListNode nextL2 = currentL2.next;
-
-                if (currentL1 == l1)
+                if (l2 == null)
                 {
-                    l1 = currentL2;
-                    currentL2.next = currentL1;
+                    current.next = l1;
+                    break;
                 }
-                else if (currentL1.next == null)
+                if (l1.val < l2.val)
                 {
-                    currentL1.next = currentL2;
+                    current.next = l1;
+                    l1 = l1.next;
                 }
-                else if (currentL2.val >= currentL1.val)
+                else
                 {
-                    currentL1.next = currentL2;
-                    currentL2.next = tempL1;
+                    current.next = l2;
+                    l2 = l2.next;
                 }
-                //0-2-2-3
-                //1-3-4-5
-                else if (currentL2.val < currentL1.val)
-                {
-
-                }
-
-                currentL2 = nextL2;
+                current = current.next;
             }
-            return l1;
+            return head.next;
         }
 
         public static void PrintLinkedLest(ListNode root)
@@ -75,6 +66,7 @@ namespace MergeNotGenericLists
             while(root != null)
             {
                 Console.Write(root.val.ToString() + " ");
+                root = root.next;
             }
         }
     }    
