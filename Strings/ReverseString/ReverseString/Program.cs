@@ -11,7 +11,7 @@ namespace ReverseString
         static void Main(string[] args)
         {
             string input = Console.ReadLine();
-            Console.WriteLine(ReverseString1(input));
+            //Console.WriteLine(ReverseString1(input));
             Console.WriteLine(ReverseString2(input));
             
             Console.ReadKey();
@@ -30,11 +30,10 @@ namespace ReverseString
         public static string ReverseString2(string input)
         {
             char[] chars = input.ToCharArray();
-            int end = input.Length -1;
-            for (int i = 0; i < end; i++, end--)
+            for (int i = 0; i < input.Length -1; i++, end--)
             {
                 char tmp = chars[i];
-                chars[i] = chars[end];
+                chars[i] = chars[input.Length - i -1];
                 chars[end] = tmp;
             }
             return new string(chars);
